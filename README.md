@@ -1,14 +1,14 @@
 An attempt to create a hardware design for SHENZHEN IO's MCxxxx family of microcontrollers.
-Current state: unstarted.
+
 
 #MCxxxx Specification
 
 ##Basic Instructions:
-`nop`
-`mov R/I R`
-`jmp L`
-`slp R/I`
-`slx P`
+`nop` (TODO)
+`mov R/I R` (TODO)
+`jmp L` (TODO)
+`slp R/I` (TODO)
+`slx P` (TODO)
 
 ##Arithmetic Instructions:
 `add R/I`
@@ -27,6 +27,11 @@ Current state: unstarted.
 ##Secret Instructions (Spoiler):
 `gen P X Y`
 
+##Conditionals:
+\+
+\-
+@ (Secret- activates only on first run)
+
 ##Registers:
 `acc`
 `dat`
@@ -34,3 +39,4 @@ Current state: unstarted.
 `x0, x1, x2, x3`
 
 #Xbus Specification
+This is going to be hard to implement, especially on the physical layer. Will do everything else first.
