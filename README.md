@@ -15,33 +15,33 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 # MCxxxx Specification
 ## Instructions (16) (4 bits):
 ### Basic (5):
-0x0 nop 		(nop)
-0x1 mov R/I R	(move 1st to 2nd)
-0x2 jmp L		(Compile L to 4b address)
-0x3 slp R/I	(sleep x time)
-0x4 slx P		(sleep until data on XBUS P)
+0x0 nop 		(nop)  
+0x1 mov R/I R	(move 1st to 2nd)  
+0x2 jmp L		(Compile L to 4b address)  
+0x3 slp R/I	(sleep x time)  
+0x4 slx P		(sleep until data on XBUS Pin)  
 ### ALU (6):
-0x5 add R/I		(acc+=arg1)
-0x6 sub R/I		(acc-=arg1)
-0x7 mul R/I		(acc*=arg1)
-0x8 not			(acc=100 if acc=0, otherwise acc=0)
-0x9 dgt R/I		(acc=acc(arg1))
-0xA dst R/I R/I	(acc(arg1)=arg2)
+0x5 add R/I		(acc+=arg1)  
+0x6 sub R/I		(acc-=arg1)  
+0x7 mul R/I		(acc*=arg1)  
+0x8 not			(acc=100 if acc=0, otherwise acc=0)  
+0x9 dgt R/I		(acc=acc(arg1))  
+0xA dst R/I R/I	(acc(arg1)=arg2)  
 ### Test (4):
-0xB R/I R/I	(arg1==arg2)
-0xC R/I R/I	(arg1>arg2)
-0xD R/I R/I (arg1<arg2)
-0xE R/I R/I (+ en if arg1>, -en if arg1<, = disabled)
-### Secret (1):
-0xF P R/I R/I (generates pulse)
+0xB R/I R/I	(arg1==arg2)  
+0xC R/I R/I	(arg1>arg2)  
+0xD R/I R/I (arg1<arg2)  
+0xE R/I R/I (+ en if arg1>, -en if arg1<, = disabled)  
+### Secret (1):  
+0xF P R/I R/I (generates pulse)  
 
 ## Registers:
-`acc` [11b]
-`dat` [11b]
-`p0, p1` [7b]
-`x0, x1, x2, x3` [11b]
-PC [4b] (Instruction pointer. Not user accessible.)
-HIST[14b] (Tracks which instructions have been executed. Not user accessible.)
+`acc` [11b]  
+`dat` [11b]  
+`p0, p1` [7b]  
+`x0, x1, x2, x3` [11b]  
+PC [4b] (Instruction pointer. Not user accessible.)  
+HIST[14b] (Tracks which instructions have been executed. Not user accessible.)  
 
 # Xbus Specification (from the datasheet)
 XBus values are discrete data packets from -999 to 999, inclusive. XBus, however, is a synchronized protocol. Data over XBus pins is only transferred when there is
