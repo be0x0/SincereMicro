@@ -4,3 +4,4 @@ alu/sub.v
 alu/mul.v
 alu/notop.v
 
+prog_mem.v
