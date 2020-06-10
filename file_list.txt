@@ -1,0 +1,6 @@
+alu/alu.v
+alu/add.v
+alu/sub.v
+alu/mul.v
+alu/notop.v
+

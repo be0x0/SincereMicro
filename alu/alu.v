@@ -1,7 +1,8 @@
-`include "add.v"
+/*`include "add.v"
 `include "sub.v"
 `include "notop.v"
 `include "mul.v"
+*/
 
 module alu(
   input wire [3:0] inst,

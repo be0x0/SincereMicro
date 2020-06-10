@@ -1,8 +1,6 @@
-module sub(arg1, acc, out);
-  input signed [10:0] arg1;
-  input signed [10:0] acc;
-
-  output reg [10:0] out;
+module sub(
+  input signed [10:0] arg1, acc,
+  output reg [10:0] out);
 
   wire signed [11:0] tmp;
 

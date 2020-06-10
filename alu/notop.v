@@ -1,7 +1,7 @@
-module notop(acc, out);
-  input signed [10:0] acc;
-  output reg signed [10:0] out;
-
+module notop(
+  input signed [10:0] acc,
+  output reg signed [10:0] out);
+  
   always @(*)
   begin
     if(acc == 0)
