@@ -1,11 +1,11 @@
-An attempt to create a synthesizable hardware design for SHENZHEN IO's MCxxxx family of microcontrollers
+An attempt to create a synthesizable hardware design for SHENZHEN IO's MCxxxx family of microcontrollers.
 
 # Instruction format:
 42 bit instructions. Arguments can be either registers or addresses. Arguments are 12 bits because numbers ranging from -999 to 999 need a minimum of 11 bits and we need a bit to say if it's a register or not.
 
 Arguments could easily be made 11 bits by taking advantage of numbers >999 and <1024 and using them as register addresses but bits are cheap.
 
-Conditional[2 bits] Instruction[4 bits] arg0[12 bits] arg1[12 bits] arg2 [12 bits]
+Conditional[2 bits] Instruction[4 bits] arg0[12 bits] arg1[12 bits] arg2 [12 bits]  
 cond[41:40] inst[39:36] arg0[35:24] arg1[23:12] arg2[11:0]
 
 Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12 bits.
@@ -28,14 +28,15 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0x9 dgt R/I		(acc=acc(arg1))  
 0xA dst R/I R/I	(acc(arg1)=arg2)  
 ### Test (4):
-0xB R/I R/I	: Checks if arg1 == arg2  
-0xC R/I R/I	: Tests if arg1 > arg2 
-0xD R/I R/I : arg1 < arg2  
-0xE R/I R/I : + en if arg1 >, -en if arg1<, = disabled  
+0xB teq R/I R/I	: Checks if arg1 == arg2  
+0xC tgt R/I R/I	: Tests if arg1 > arg2  
+0xD tlt R/I R/I : arg1 < arg2  
+0xE tcp R/I R/I : + en if arg1 >, -en if arg1<, = disabled  
 ### Secret (1):  
-0xF P R/I R/I (generates pulse)  
+0xF gen P R/I R/I (generates pulse)  
 
 ## Registers:
+`null` [12b] [0x000]
 `acc` [11b]  
 `dat` [11b]  
 `p0, p1` [7b]  
