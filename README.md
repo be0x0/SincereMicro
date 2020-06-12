@@ -1,4 +1,4 @@
-An attempt to create a synthesizable hardware design for SHENZHEN IO's MCxxxx family of microcontrollers.
+An attempt to create a synthesizable verilog design for SHENZHEN IO's MCxxxx family of microcontrollers.
 
 # Instruction format:
 42 bit instructions. Arguments can be either registers or addresses. Arguments are 12 bits because numbers ranging from -999 to 999 need a minimum of 11 bits and we need a bit to say if it's a register or not.
@@ -18,15 +18,15 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0x0 nop 		(nop)  
 0x1 mov R/I R	(move 1st to 2nd)  
 0x2 jmp L		(Compile L to 4b address)  
-0x3 slp R/I	(sleep x time)  
-0x4 slx P		(sleep until data on XBUS Pin)  
+0x3 slp R/I	(sleep x time)  (TODO)  
+0x4 slx P		(sleep until data on XBUS Pin)  (TODO)  
 ### ALU (6):
-0x5 add R/I		(acc+=arg1)  
+0x5 add R/I		(acc+=arg1) 
 0x6 sub R/I		(acc-=arg1)  
 0x7 mul R/I		(acc*=arg1)  
 0x8 not			(acc=100 if acc=0, otherwise acc=0)  
-0x9 dgt R/I		(acc=acc(arg1))  
-0xA dst R/I R/I	(acc(arg1)=arg2)  
+0x9 dgt R/I		(acc=acc(arg1))  (TODO- putting off BCD decoder)  
+0xA dst R/I R/I	(acc(arg1)=arg2)  (TODO- see above)  
 ### Test (4):
 0xB teq R/I R/I	: Checks if arg1 == arg2  
 0xC tgt R/I R/I	: Tests if arg1 > arg2  
@@ -36,11 +36,12 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0xF gen P R/I R/I (generates pulse)  
 
 ## Registers:
-`null` [12b] [0x000]
+TODO: dereferencing.  
+`null` [12b] [0x000] (TODO)  
 `acc` [11b]  
-`dat` [11b]  
-`p0, p1` [7b]  
-`x0, x1, x2, x3` [11b]  
+`dat` [11b]  (TODO)  
+`p0, p1` [7b]   (TODO)  
+`x0, x1, x2, x3` [11b] (TODO)  
 `PC` [4b] (Instruction pointer. Not user accessible.)  
 `HIST` [14b] (Tracks which instructions have been executed. Not user accessible.)  
 
