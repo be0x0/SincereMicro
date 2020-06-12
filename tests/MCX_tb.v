@@ -1,9 +1,4 @@
 module MCX_tb();
-
-  reg signed [10:0] arg1;
-  reg signed [10:0] arg2;
-  reg signed [10:0] arg3;
-  reg signed [3:0] inst;
   reg clk;
   reg rst;
 
@@ -16,8 +11,7 @@ module MCX_tb();
     rst = 0;
     #1;
     rst = 1;
-    #10;
-    #100;
+    #5000;
     $display("Stopping");
     $stop;
   end
