@@ -5,8 +5,17 @@ module MCX(
     reg [3:0] PC;
     reg [1:0] cond;
     reg [3:0] inst;
-    reg signed [10:0] args [2:0];
+    reg signed [11:0] args [2:0];
     
+    //Debug: Breaks out args to be seen by gtkwave
+    wire signed [11:0] arg0;
+    wire signed [11:0] arg1;
+    wire signed [11:0] arg2;
+
+    assign arg0 = args[0];
+    assign arg1 = args[1];
+    assign arg2 = args[2];
+
     //registers
     reg signed [10:0] acc;
 
@@ -16,7 +25,7 @@ module MCX(
 
     wire signed [10:0] alu_out;
 
-    parameter acc_addr = 1;
+    parameter acc_addr = 12'h801;
 
     alu ALU1(.inst(inst), .arg1(args[0]), .arg2(args[1]), .acc(acc), .out(alu_out)); 
     prog_mem MEM(.rst(rst), .addr(next_inst), .line(line));
@@ -33,7 +42,7 @@ module MCX(
 
     //Queue next instruction to be loaded
     always @(*) begin
-            if(inst == 4'h3)
+            if(inst == 4'h2)    //Jump
                 next_inst <= args[0];
             else if(PC == 6)
                 next_inst <= 0;
@@ -43,9 +52,9 @@ module MCX(
 
     //Update acc register
     always @(posedge clk) begin
-        if(inst != 4'h1) acc <= alu_out;
-        else if(args[2] == acc_addr) acc <= args[1];
-        else acc <= acc;
+        if(inst != 4'h1) acc <= alu_out; //everything except mov instruction handled by alu
+        else if(args[1] == acc_addr) acc <= args[0]; //mov instruction
+        else acc <= acc;    //unnecessary backup
     end
 
 
