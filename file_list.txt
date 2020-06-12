@@ -3,5 +3,6 @@ alu/add.v
 alu/sub.v
 alu/mul.v
 alu/notop.v
-
+tests/MCX_tb.v
 prog_mem.v
+MCX.v
