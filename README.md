@@ -10,8 +10,6 @@ cond[41:40] inst[39:36] arg0[35:24] arg1[23:12] arg2[11:0]
 
 Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12 bits.
 
-# Models
-
 # MCxxxx Specification
 ## Instructions (16) (4 bits):
 ### Basic (5):
@@ -20,8 +18,8 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0x2 jmp L		(Compile L to 4b address)  
 0x3 slp R/I	(sleep x time)  (TODO)  
 0x4 slx P		(sleep until data on XBUS Pin)  (TODO)  
-### ALU (6):
-0x5 add R/I		(acc+=arg1) 
+### ALU (6):  
+0x5 add R/I		(acc+=arg1)  
 0x6 sub R/I		(acc-=arg1)  
 0x7 mul R/I		(acc*=arg1)  
 0x8 not			(acc=100 if acc=0, otherwise acc=0)  
@@ -43,7 +41,7 @@ TODO: dereferencing.
 `p0, p1` [7b]   (TODO)  
 `x0, x1, x2, x3` [11b] (TODO)  
 `PC` [4b] (Instruction pointer. Not user accessible.)  
-`HIST` [14b] (Tracks which instructions have been executed. Not user accessible.)  
+`HIST` [14b] (Tracks which instructions have been executed. Not user accessible.)  (TODO)  
 
 # Xbus Specification (from the datasheet)
 XBus values are discrete data packets from -999 to 999, inclusive. XBus, however, is a synchronized protocol. Data over XBus pins is only transferred when there is both a reader attempting to read and a writer attempting to write. If a read or write is attempted without a corresponding operation on a connected device, the operation will block.
