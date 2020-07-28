@@ -1,0 +1,7 @@
+mov 3 p1
+
+@add 9
+huh: sub p1
+mov p1 1
+not
+jmp huh
