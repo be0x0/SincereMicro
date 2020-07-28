@@ -12,7 +12,6 @@ module prog_mem(
     //Program memory goes here. Commented out are previous tests.
     always @(*) begin
         if(!rst) begin
-
             //Toggle acc every two cycles.
             mem[0] = {2'h0,4'h1,12'd150,12'h801,12'b0}; //Set acc to 150
             mem[1] = {2'h0,4'h0,12'd0,12'b0,12'b0}; //Nop
