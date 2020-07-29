@@ -38,7 +38,7 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 ### Secret (1):  
 0xF : gen P R/I R/I (generates pulse)  
 
-## Registers:
+## Registers (9):
 TODO: dereferencing.  
 `null` [12b] [0x0] (TODO)  
 `acc` [11b]  [0x1]
