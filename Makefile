@@ -1,5 +1,5 @@
 tb: MCX.v alu/
-	verilator MCX.v -y alu/ --cc --exe --build tb_driver.cpp
+	verilator MCX.v -y alu/ --cc --exe --build tb_driver.cpp --trace
 
 .PHONY: clean
 clean:
