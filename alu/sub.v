@@ -4,11 +4,11 @@ module sub(
 
   wire signed [11:0] tmp;
 
-  assign tmp = acc-arg1;
+  assign tmp = acc - arg1;
 
   always @(*) begin //overflow handler
-    if(tmp>999) out <= 999;
-    else if(tmp<-999) out <= -999;
-    else out<=tmp;
+    if(tmp>999) out = 999;
+    else if(tmp<-999) out = -999;
+    else out = tmp[10:0];
   end
 endmodule

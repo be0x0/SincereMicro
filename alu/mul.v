@@ -6,10 +6,10 @@ module mul(acc, arg1, out);
 
   wire signed [21:0] tmp;
   
-  assign tmp = acc*arg1;
+  assign tmp = acc * arg1;
   always @(*) begin
-    if(tmp > 999) out <= 999;
-    else if(tmp < -999) out <= -999;
-    else  out <= tmp;
+    if(tmp > 999) out = 999;
+    else if(tmp < -999) out = -999;
+    else  out = tmp[10:0];
   end
 endmodule

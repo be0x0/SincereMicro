@@ -5,8 +5,8 @@ module notop(
   always @(*)
   begin
     if(acc == 0)
-      out <= 100;
+      out = 100;
     else
-      out <= 0;
+      out = 0;
   end
 endmodule

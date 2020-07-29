@@ -20,15 +20,15 @@ module alu(
   //dgt UDGT(.arg1(arg1), .acc(acc), .out(dgt_out);
   //dst UDST(.arg1(arg1),.arg2(arg2),.acc(acc),.out(dst_out))
 
-  always @(*) begin
+  always @(add_out or sub_out or mul_out or not_out or inst) begin
     case(inst)
-      5 : out <= add_out;
-      6 : out <= sub_out;
-      7 : out <= mul_out;
-      8 : out <= not_out;
+      5 : out = add_out;
+      6 : out = sub_out;
+      7 : out = mul_out;
+      8 : out = not_out;
       //10 : acc <= dgt_out;
       //11 : acc <= dst_out;
-      default: out <= acc;
+      default: out = acc;
     endcase
   end
 endmodule

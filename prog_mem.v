@@ -6,7 +6,7 @@ module prog_mem(
     reg [41:0] mem [6:0];
 
     always @(*) begin
-        line <= {addr,mem[addr]};
+        line = {addr,mem[addr[2:0]]};
     end
 
     //Program memory goes here. Commented out are previous tests.
