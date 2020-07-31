@@ -1,5 +1,6 @@
 module MCX(
-    input clk, nrst);
+    input clk, nrst,
+    inout [6:0] p0, p1);
     
     //Program Counter [4b] Conditional[2 bits] Instruction[4 bits] arg1[12 bits] arg2[12 bits] arg3 [12 bits]
     reg [3:0] PC;
@@ -8,11 +9,19 @@ module MCX(
     reg signed [11:0] args [2:0];
     reg signed [10:0] numArgs [2:0];
 
-    //registers
+    // registers
     reg signed [10:0] acc;
     reg [3:0] next_inst;
     wire [45:0] line;
     wire signed [10:0] alu_out;
+    reg signed [6:0] p0r;
+    reg signed [6:0] p0w;
+    reg signed [6:0] p1r;
+    reg signed [6:0] p1w;
+
+    // Ports
+    assign p0 = p0oe ? p0w : 7'bZ;
+    assign p1 = p1oe  ? p1w : 7'bZ;
 
     parameter acc_addr = 12'h801;
 
@@ -71,6 +80,22 @@ module MCX(
     end
 
     //update p0
+    always @(posedge clk, negedge nrst) begin
+        if(!nrst) begin
+            p0oe = 1;
+            p0r = 0;
+            p0w = 0;
+        end
+        else begin
+            if(inst == 4'h1) begin  // mov
+                // moving from p1
+                if(args[0] == p1_addr) begin
+                     
+                end
+            end
+            if(inst == 4'h1) 
+        end
+    end
 
     //update p1
 
