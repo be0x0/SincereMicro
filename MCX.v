@@ -21,7 +21,7 @@ module MCX(
 
     // Ports
     assign p0 = p0oe ? p0w : 7'bZ;
-    assign p1 = p1oe  ? p1w : 7'bZ;
+    assign p1 = p1oe ? p1w : 7'bZ;
 
     parameter acc_addr = 12'h801;
 
@@ -82,15 +82,16 @@ module MCX(
     //update p0
     always @(posedge clk, negedge nrst) begin
         if(!nrst) begin
-            p0oe = 1;
-            p0r = 0;
-            p0w = 0;
+            p0oe <= 0;
+            p0r <= 0;
+            p0w <= 0;
         end
         else begin
             if(inst == 4'h1) begin  // mov
                 // moving from p1
                 if(args[0] == p1_addr) begin
-                     
+                    p0oe <= 0;
+                    // tmp already = p0r combinatorily
                 end
             end
             if(inst == 4'h1) 
