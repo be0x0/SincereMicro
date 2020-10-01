@@ -1,52 +1,48 @@
 #include <stdlib.h>
 #include <iostream>
-#include "VMCX.h"
-#include "verilated.h"
 #include <string>
-
-using namespace std;
+#include <mcx.cpp>
 
 string argDecode(int aArg);
 char condDecode(int aCond);
 
 int main(int argc, char **argv) {
-	// Initialize Verilators variables
-	Verilated::commandArgs(argc, argv);
 
 	// Create an instance of our module under test
-	VMCX *tb = new VMCX();
+	cxxrtl_design::p_VMCX top;
 
 	const char *instSet[16] = {"nop", "mov", "jmp", "slp", "slx", "add", "sub",
 		"mul", "not", "dgt", "dst", "teq", "tgt", "tlt", "tcp", "gen"};
 
 	// Reset
-    tb->clk = 0;
-    tb->nrst = 1;
-    tb->eval();
-    tb->nrst = 0;
-	tb->eval();
-	tb->nrst = 1;
-	tb->eval();
+	top.p_clk.set(0);
+    top.nrst.set(1);
+    top.step();
+    top.nrst.set(0);
+	top.step();
+	top.nrst.set(1);
+	top.step();
 
 	// Tick the clock until we are done
 	for(int i = 0; i < 10 && !Verilated::gotFinish(); i++) {
-		tb->clk = 1;
-		tb->eval();
+		top.clk.set(1);
+		top.step();
 
 		int tick = i;
-		int pc = tb->MCX__DOT__PC;
-		int cond = tb->MCX__DOT__cond;
-		int inst = tb->MCX__DOT__inst;
-		string args[3] = {argDecode(tb->MCX__DOT__args[0]),
-			argDecode(tb->MCX__DOT__args[1]), argDecode(tb->MCX__DOT__args[2])};
-		int acc = tb->MCX__DOT__acc;
-
+		int pc = top.p_PC;
+		int cond = top.p_cond;
+		int inst = top.p_inst;
+		string args[3] = {argDecode(top.p_args[0]),
+			argDecode(top.p_args[1]), argDecode(top.p_args[2])};
+		int acc = top.MCX__DOT__acc;
 
 		printf("Tick %d \n", i);
 		printf("%d\t%c %s %s %s %s\t", pc, cond, instSet[inst], args[0].c_str(), args[1].c_str(), args[2].c_str());
 		printf("\tAcc: %d\n",acc);
-		tb->clk = 0;
-		tb->eval();
+
+		top.clk = 0;
+		top.step();
+
 	} exit(EXIT_SUCCESS);
 }
 
