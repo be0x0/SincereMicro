@@ -30,11 +30,13 @@ module MCX(
     prog_mem MEM(.rst(nrst), .addr(next_inst), .line(line));
 
     // Update register args with numeric values
+    // TODO: Actually dereference registers
+
+    reg i;
     always @(*) begin
-        for(int i=0;i<2;i=i+1) begin
+        for(i=0; i<2; i=i+1) begin
             numArgs[i] = args[i][10:0];
         end
-        //TODO: Actually dereference registers
     end
 
     // Load next instruction
@@ -80,7 +82,7 @@ module MCX(
     end
 
     //update p0
-    always @(posedge clk, negedge nrst) begin
+    always @(posedge clk or negedge nrst) begin
         if(!nrst) begin
             p0oe <= 0;
             p0r <= 0;
@@ -91,10 +93,9 @@ module MCX(
                 // moving from p1
                 if(args[0] == p1_addr) begin
                     p0oe <= 0;
-                    // tmp already = p0r combinatorily
+                    p0w <= numArgs[1];
                 end
             end
-            if(inst == 4'h1) 
         end
     end
 
