@@ -14,5 +14,4 @@ module dgt(acc, arg1, out);
     else
       out <= 999;
   end
-
 endmodule
