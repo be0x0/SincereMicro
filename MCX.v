@@ -31,7 +31,6 @@ module MCX(
 
     // Update register args with numeric values
     // TODO: Actually dereference registers
-
     reg i;
     always @(*) begin
         for(i=0; i<2; i=i+1) begin
@@ -40,7 +39,7 @@ module MCX(
     end
 
     // Load next instruction
-    always @(posedge clk, negedge nrst) begin
+    always @(posedge clk or negedge nrst) begin
         if(!nrst) begin
             PC <= 4'd15;
             cond <= 2'b0;
