@@ -3,13 +3,14 @@ module dgt(acc, arg1, out);
   input signed [10:0] arg1;
   output wire signed [10:0] out;
 
-  wire bcd;
-  wire bin;
+  wire [12:0] bin;
+  wire [10:0] bcd;
+
  
   bin2bcd UBCD(.bin(acc), .bcd(bcd));
 
   always @(*) begin
-    if(arg1 > 0 && arg1 < 3)
+    if(arg1 >= 0 && arg1 < 3)
       out <= bcd[4*arg1+:4];
     else
       out <= 999;
