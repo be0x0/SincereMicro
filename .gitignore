@@ -1,3 +1,4 @@
 obj_dir/
 mcx.cpp
 tb
+tb_out.vcd
