@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "mcx.cpp"
 #include <iomanip>
+#include <backends/cxxrtl/cxxrtl_vcd.h>
 
 using namespace std;
 using std::setw;
@@ -45,6 +47,26 @@ int dump_int(cxxrtl::debug_items &items, std::string path)
 	return item.curr[0];
 }
 
+void dump_item_value(cxxrtl::debug_items &items, std::string path)
+{
+    cxxrtl::debug_item item = items.at(path);
+
+    // Number of chunks per value
+    const size_t nr_chunks = (item.width + (sizeof(chunk_t) * 8 - 1)) / (sizeof(chunk_t) * 8);
+
+    cout << "\"" << path << "\":"  << endl;
+
+    for (size_t index = 0; index < item.depth; index++) {
+        if (item.depth > 1)
+            cout << "location[" << index << "] : "; 
+
+        for(size_t chunk_nr = 0; chunk_nr < nr_chunks; ++chunk_nr){
+            cout << item.curr[nr_chunks * index + chunk_nr];
+            cout << (chunk_nr == nr_chunks-1 ? "\n" : ",  ");
+        }
+    }
+}
+
 
 int main(int argc, char **argv) {
 
@@ -52,6 +74,12 @@ int main(int argc, char **argv) {
 	cxxrtl_design::p_MCX top;
 	cxxrtl::debug_items all_debug_items;
 	top.debug_info(all_debug_items);
+	cxxrtl::vcd_writer vcd;
+	vcd.timescale(1, "us");
+	vcd.add_without_memories(all_debug_items);
+
+	ofstream waves("tb_out.vcd");
+
 	dump_all_items(all_debug_items);
 
 	const char *instSet[16] = {"nop", "mov", "jmp", "slp", "slx", "add", "sub",
@@ -70,10 +98,12 @@ int main(int argc, char **argv) {
 	for(int i = 0; i < 10; i++) {
 		top.p_clk.set(1U);
 		top.step();
+		vcd.sample(i*2 + 0);
 		int tick = i;
 		int pc = dump_int(all_debug_items,"PC");
 		int cond = dump_int(all_debug_items,"cond");
 		int inst = dump_int(all_debug_items,"inst");
+		
 		std::string args[3] = {
 			argDecode(dump_int(all_debug_items,"args[0]")),
 			argDecode(dump_int(all_debug_items,"args[1]")),
@@ -83,10 +113,13 @@ int main(int argc, char **argv) {
 		printf("Tick %d \n", i);
 		printf("%d\t%c %s %s %s %s\t", pc, cond, instSet[inst], args[0].c_str(), args[1].c_str(), args[2].c_str());
 		printf("\tAcc: %d\n",acc);
-
+		
 		top.p_clk.set(0U);
 		top.step();
+		vcd.sample(i*2 + 1);
+		waves << vcd.buffer;
 
+        vcd.buffer.clear();
 	} exit(EXIT_SUCCESS);
 }
 
