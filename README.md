@@ -28,20 +28,20 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0x6 : sub R/I		(acc-=arg1)  
 0x7 : mul R/I		(acc*=arg1)  
 0x8 : not			(acc=100 if acc=0, otherwise acc=0)  
-0x9 : dgt R/I		(acc=acc(arg1))  (TODO- putting off BCD decoder)  
-0xA : dst R/I R/I	(acc(arg1)=arg2)  (TODO- see above)  
-### Test (4):
+0x9 : dgt R/I		(acc=arg1 digit of acc)  
+0xA : dst R/I R/I	(acc(arg1)=arg2)  (TODO)  
+### Test (4): (TODO)  
 0xB : teq R/I R/I	: Checks if arg1 == arg2  
 0xC : tgt R/I R/I	: Tests if arg1 > arg2  
 0xD : tlt R/I R/I : arg1 < arg2  
 0xE : tcp R/I R/I : + en if arg1 >, -en if arg1<, = disabled  
-### Secret (1):  
+### Secret (1):  (TODO)  
 0xF : gen P R/I R/I (generates pulse)  
 
 ## Registers (9):
 TODO: dereferencing.  
 `null` [12b] [0x0] (TODO)  
-`acc` [11b]  [0x1]
+`acc` [11b]  [0x1]  
 `dat` [11b]  [0x2] (TODO)  
 `p0` [7b] [0x3] (TODO)  
 `p1` [7b] [0x4] (TODO)  
