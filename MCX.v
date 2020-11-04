@@ -9,7 +9,7 @@ module MCX(
     reg signed [11:0] args [2:0];
     reg signed [10:0] numArgs [2:0];
 
-    // registers
+    // Registers
     reg signed [10:0] acc;
     reg [3:0] next_inst;
     wire [45:0] line;
@@ -23,18 +23,32 @@ module MCX(
     assign p0 = p0oe ? p0w : 7'bZ;
     assign p1 = p1oe ? p1w : 7'bZ;
 
+    // Register Addresses
+    parameter null_addr = 12'h800;
     parameter acc_addr = 12'h801;
+    parameter dat_addr = 12'h802;
+    parameter p0_addr = 12'h803;
+    parameter p1_addr = 12'h804;
+    parameter x0_addr = 12'h805;
+    parameter x1_addr = 12'h806;
+    parameter x2_addr = 12'h807;
+    parameter x3_addr = 12'h808;
 
 
     alu ALU1(.inst(inst), .arg1(numArgs[0]), .arg2(numArgs[1]), .acc(acc), .out(alu_out)); 
     prog_mem MEM(.rst(nrst), .addr(next_inst), .line(line));
 
     // Update register args with numeric values
-    // TODO: Actually dereference registers
     reg i;
     always @(*) begin
         for(i=0; i<2; i=i+1) begin
-            numArgs[i] = args[i][10:0];
+            case(args[i])
+                null_addr: numArgs[i] = 0;
+                acc_addr: numArgs[i] = acc;
+                dat_addr: numArgs[i] = dat;
+                p0_addr: numArgs[i] = p0r;
+                default: numArgs[i] = args[i][10:0];
+            endcase
         end
     end
 
@@ -88,13 +102,17 @@ module MCX(
             p0w <= 0;
         end
         else begin
-            if(inst == 4'h1) begin  // mov
-                // moving from p1
-                if(args[0] == p1_addr) begin
-                    p0oe <= 0;
-                    p0w <= numArgs[1];
-                end
+            // mov instruction
+            if(args[0] == p0_addr) // Something's trying to read
+                p0oe <= 0;
+            else if(args[1] == p0_addr)  begin // Maybe mov, maybe not
+                if(inst == 4'h1)
+                    p0oe <= 1;  // Attempted write
+                else
+                    p0oe <= 0;  //Just another read
             end
+            else
+                p0oe <= p0oe;
         end
     end
 
