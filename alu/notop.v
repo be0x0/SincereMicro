@@ -9,4 +9,10 @@ module notop(
     else
       out = 0;
   end
+
+`ifdef FORMAL
+    always @(*) begin
+        assert(out == 100 || out == 0);
+    end
+`endif
 endmodule
