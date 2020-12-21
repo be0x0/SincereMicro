@@ -1,0 +1,13 @@
+[options]
+mode bmc
+
+[engines]
+smtbmc
+
+[script]
+read_verilog -formal dgt.v bin2bcd.v
+prep -top dgt
+
+[files]
+dgt.v
+bin2bcd.v
