@@ -1,0 +1,12 @@
+[options]
+mode bmc
+
+[engines]
+smtbmc
+
+[script]
+read_verilog -formal add.v
+prep -top add
+
+[files]
+add.v
