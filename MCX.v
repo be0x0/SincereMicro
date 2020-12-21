@@ -83,7 +83,7 @@ module MCX(
     end
 
     // Update acc register
-    always @(posedge clk, negedge nrst) begin
+    always @(posedge clk, nrst) begin
         if(!nrst) begin
             acc <= 0;
         end
@@ -95,7 +95,7 @@ module MCX(
     end
 
     //update p0
-    always @(posedge clk or negedge nrst) begin
+    always @(posedge clk, nrst) begin
         if(!nrst) begin
             p0oe <= 0;
             p0r <= 0;
