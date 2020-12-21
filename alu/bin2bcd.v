@@ -16,5 +16,4 @@ module bin2bcd
         if (bcd[W-i+4*j -: 4] > 4)                      // if > 4
           bcd[W-i+4*j -: 4] = bcd[W-i+4*j -: 4] + 4'd3; // add 3
   end
-
 endmodule
