@@ -1,5 +1,9 @@
 An attempt to create a synthesizable verilog design for SHENZHEN IO's MCxxxx family of microcontrollers.
 
+Eventually, this whole thing will be formally verified and a Skywater gds will be ran.
+
+SHENZHEN IO, along with the specifications for the MCxxxx series, are the intellectual property of Zachtronics and Alliance Media Holdings. I have no affiliation with either.
+
 # Instruction format:
 42 bit instructions. Arguments can be either registers or addresses. Arguments are 12 bits because numbers ranging from -999 to 999 need a minimum of 11 bits and we need a bit to say if it's a register or not.
 
@@ -11,13 +15,13 @@ cond[41:40] inst[39:36] arg0[35:24] arg1[23:12] arg2[11:0]
 Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12 bits.
 
 # MCxxxx Specification
-## Conditionals  
+## Conditionals  (TODO)
 0b00 : "" : Instruction always executes  
 0b01 : "-" : Instruction only executes when - flag is set  
 0b10 : "+" : Instruction only executes when + flag is set  
 0b11 : "@" : Instruction only executes once  
 ## Instructions (16) (4 bits):
-### Basic (5):
+### Basic (5): (TODO)
 0x0 : nop 		(nop)  
 0x1 : mov R/I R	(move 1st to 2nd)  
 0x2 : jmp L		(jump to label L) 
@@ -29,7 +33,7 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 0x7 : mul R/I		(acc*=arg1)  
 0x8 : not			(acc=100 if acc=0, otherwise acc=0)  
 0x9 : dgt R/I		(acc=arg1 digit of acc)  
-0xA : dst R/I R/I	(acc(arg1)=arg2)  (TODO)  
+0xA : dst R/I R/I	(acc(arg1)=arg2)
 ### Test (4): (TODO)  
 0xB : teq R/I R/I	: Checks if arg1 == arg2  
 0xC : tgt R/I R/I	: Tests if arg1 > arg2  
