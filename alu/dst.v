@@ -1,9 +1,9 @@
 module dst(acc, arg1, arg2, out);
     input signed [10:0] acc;
     input signed [10:0] arg1;
-    input signed [10:0] arg1;
+    input signed [10:0] arg2;
     output wire signed [10:0] out;
-`
+
     wire [10:0] bin;
     wire [12:0] bcd;
 
@@ -29,17 +29,16 @@ module dst(acc, arg1, arg2, out);
         else
             currDigit <= 0;
 
-        sum <= arg1 - currDigit;
+        sum <= arg2 - currDigit;
 
-        if(arg1 == 0) { // Change 1st digit
+        if(arg1 == 0) // Change 1st digit
             to_add <= sum;
-        } else if (arg1 == 1) { // Change 2nd digit
+        else if (arg1 == 1) // Change 2nd digit
             to_add <= (sum<<3) + (sum<<1); //sum * 10
-        else if (arg1 == 2) { // Change 3rd digit
+        else if (arg1 == 2) // Change 3rd digit
             to_add <= (sum<<6) + (sum<<5) + (sum<<2); // sum * 100
-        } else {
+        else
             to_add <= 0;
-        }
         
         if(acc >= 0)
             out <= acc_safe+to_add;
@@ -53,10 +52,13 @@ module dst(acc, arg1, arg2, out);
     always @(*) begin
         assume(acc <= 999 && acc >= -999);
         
+        assume(arg2 >= 0 && arg2 <= 9); // Behavior undefined for invalid arg2
+
         assert(acc_safe >= 0);
 
-        assert(sum > 9);
-        assert(sum < 0);
+        assert(sum >=-9 && sum <= 9);
+
+        assert(sum == arg2 - currDigit);
 
         if(arg1 == 0)
             assert(currDigit == (acc_safe % 10));
@@ -66,6 +68,15 @@ module dst(acc, arg1, arg2, out);
             assert(currDigit == ((acc_safe/100) % 10));
         else
             assert(currDigit <= 0);
+
+        if (arg1 == 0)
+            assert(to_add == sum);
+        else if (arg1 == 1)
+            assert(to_add == sum * 10);
+        else if (arg1 == 2)
+            assert(to_add == sum * 100);
+        else
+            assert(to_add == 0);
     end
 `endif
 endmodule
