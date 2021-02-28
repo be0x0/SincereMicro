@@ -44,7 +44,7 @@ Arg3 is only used in one instruction, and it's a secret instruction. Waste of 12
 
 ## Registers (9):
 TODO: dereferencing.  
-`null` [12b] [0x0] (TODO)  
+`null` [12b] [0x0]
 `acc` [11b]  [0x1]  
 `dat` [11b]  [0x2] (TODO)  
 `p0` [7b] [0x3] (TODO)  

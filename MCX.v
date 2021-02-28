@@ -47,6 +47,7 @@ module MCX(
                 acc_addr: numArgs[i] = acc;
                 dat_addr: numArgs[i] = dat;
                 p0_addr: numArgs[i] = p0r;
+                p1:addr: numArgs[i] = p1r;
                 default: numArgs[i] = args[i][10:0];
             endcase
         end
@@ -115,8 +116,6 @@ module MCX(
                 p0oe <= p0oe;
         end
     end
-
-    //update p1
 
 
 endmodule
