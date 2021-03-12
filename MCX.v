@@ -8,6 +8,9 @@ module MCX(
     reg [3:0] inst;
     reg signed [11:0] args [2:0];
     reg signed [10:0] numArgs [2:0];
+    // Compare flags
+    reg enPlus;
+    reg enMinus;
 
     // Registers
     reg signed [10:0] acc;
@@ -47,14 +50,14 @@ module MCX(
                 acc_addr: numArgs[i] = acc;
                 dat_addr: numArgs[i] = dat;
                 p0_addr: numArgs[i] = p0r;
-                p1:addr: numArgs[i] = p1r;
+                p1_addr: numArgs[i] = p1r;
                 default: numArgs[i] = args[i][10:0];
             endcase
         end
     end
 
     // Load next instruction
-    always @(posedge clk or negedge nrst) begin
+    always @(posedge clk) begin
         if(!nrst) begin
             PC <= 4'd15;
             cond <= 2'b0;
@@ -84,7 +87,7 @@ module MCX(
     end
 
     // Update acc register
-    always @(posedge clk, nrst) begin
+    always @(posedge clk) begin
         if(!nrst) begin
             acc <= 0;
         end
@@ -96,7 +99,7 @@ module MCX(
     end
 
     //update p0
-    always @(posedge clk, nrst) begin
+    always @(posedge clk) begin
         if(!nrst) begin
             p0oe <= 0;
             p0r <= 0;
@@ -117,5 +120,34 @@ module MCX(
         end
     end
 
+    // Update CMP flags
+    always @(posedge clk) begin
+        if(!nrst) begin
+            enPlus <= 1;
+            enMinus <= 1;
+        end
+        else begin
+            // teq
+            if(inst == 4'hB) begin
+                if(numArgs[0] == numAargs[1]) begin
+                    enPlus <= 1;
+                    enMinus <= 0;
+                end
+                else begin
+                    enPlus <= 0;
+                    enMinus <= 0;
+                end
+            end
+            // tgt
+            else if(inst == 4'hC) begin
+            end
+            // tlt
+            else if(inst == 4'hD) begin
+            end
+            // tcp
+            else if(inst == 4'hE) begin
 
+            end
+        end
+    end
 endmodule
